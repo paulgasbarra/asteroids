@@ -4,10 +4,13 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
+from score import Score
 
 
 def main():
     pygame.init()
+    pygame.font.init()
+
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
 
@@ -25,6 +28,8 @@ def main():
     Player.containers = (updatable, drawable)
 
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+    score = Score(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
     dt = 0
 
@@ -45,6 +50,7 @@ def main():
         for asteroid in asteroids:
             for shot in shots:
                 if asteroid.did_collide_with(shot):
+                    score.increase(asteroid)
                     asteroid.split()
                     shot.kill()
 
@@ -52,6 +58,8 @@ def main():
 
         for obj in drawable:
             obj.draw(screen)
+
+        score.draw(screen)
 
         pygame.display.flip()
 
