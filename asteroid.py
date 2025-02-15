@@ -8,6 +8,7 @@ class Asteroid(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
         self.color = ASTEROID_COLORS[self.radius // ASTEROID_MIN_RADIUS - 1]
+        self.sound = pygame.mixer.Sound("sounds/asteroid_explosion.wav")
 
     def draw(self,screen):
         pygame.draw.circle(screen, self.color, self.position, self.radius, 2)
@@ -17,6 +18,7 @@ class Asteroid(CircleShape):
 
     def split(self):
         self.kill()
+        self.sound.play()
         if self.radius > ASTEROID_MIN_RADIUS:
             random_angle = random.uniform(20,50)
 
